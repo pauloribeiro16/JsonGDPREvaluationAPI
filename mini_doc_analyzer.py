@@ -5,12 +5,13 @@ import requests
 import time
 import beaupy # pip install beaupy
 import interaction_logger_mini
+import re
 
 # --- Configurações ---
 OLLAMA_API_BASE_URL = "http://localhost:11434/api"
 OLLAMA_TAGS_ENDPOINT_SUFFIX = "/tags"
 OLLAMA_GENERATE_ENDPOINT_SUFFIX = "/generate"
-OLLAMA_REQUEST_TIMEOUT_SECONDS = 1660 
+OLLAMA_REQUEST_TIMEOUT_SECONDS = 360 
 OLLAMA_KEEP_ALIVE_DURATION = "5m"
 PROMPTS_DIR_NAME = "prompts_mini"
 DEFAULT_SCHEMA_DIR = "test_schemas" # Continua a ser a pasta para os JSONs brutos
@@ -28,124 +29,124 @@ def list_ollama_models():
         available_models = [model["name"] for model in models_data.get("models", [])]
         if not available_models:
             print("[WARNING] No models found via Ollama API. Using a minimal default list.")
-            return ["gemma:2b"] 
+            return ["gemma:2b"]
         print(f"[INFO] Successfully fetched {len(available_models)} models from Ollama.")
         return available_models
     except Exception as e:
         print(f"[WARNING] Could not fetch models from Ollama: {e}. Using a minimal default list.")
-        return ["gemma:2b"] 
+        return ["gemma:2b"]
 
-# MODIFICADO: analysis_mode não é mais um parâmetro variável aqui, é sempre "Raw JSON Analysis"
 def call_ollama_generate(model_name, system_prompt, user_prompt_with_data, target_doc_name):
     payload = {
-        "model": model_name, "system": system_prompt, "prompt": user_prompt_with_data,
-        "template": "{{ .System }}\n\n{{ .Prompt }}", "stream": True, 
-        "keep_alive": OLLAMA_KEEP_ALIVE_DURATION
+        "model": model_name,
+        "system": system_prompt,
+        "prompt": user_prompt_with_data,
+        "stream": True, # Streaming é essencial para respostas longas e para ver o progresso
+        # "template": "{{ .System }}\n\n{{ .Prompt }}", # VAMOS REMOVER TEMPORARIAMENTE PARA TESTE
+        "keep_alive": OLLAMA_KEEP_ALIVE_DURATION # Pode experimentar "0s" ou remover a chave
     }
+    # Se o modelo não funcionar sem o template, podemos tentar um template mais simples
+    # ou garantir que o system_prompt e user_prompt_with_data não têm newlines estranhas
+    # que possam confundir o template padrão do modelo.
+
     endpoint = f"{OLLAMA_API_BASE_URL}{OLLAMA_GENERATE_ENDPOINT_SUFFIX}"
-    
-    analysis_mode_description_fixed = "Raw JSON Analysis" # Já que o modo é fixo
+    analysis_mode_description_fixed = "Raw JSON Analysis"
     print(f"\n[INFO] Analyzing '{target_doc_name}' ({analysis_mode_description_fixed}) with Ollama ({model_name}). Streaming response...")
-    
+
     full_response_content = []
-    final_response_metrics = {} 
+    final_response_metrics = {}
     http_status = None
-    raw_error_output_for_log = "Error: LLM Call did not produce parsable stream."
+    raw_response_for_debug = [] # Para guardar todas as linhas da stream
 
     try:
         with requests.post(endpoint, json=payload, timeout=OLLAMA_REQUEST_TIMEOUT_SECONDS, stream=True) as response:
             http_status = response.status_code
-            response.raise_for_status() 
-            
+            response.raise_for_status()
+
             for line in response.iter_lines():
                 if line:
+                    decoded_line = line.decode('utf-8', errors='ignore')
+                    raw_response_for_debug.append(decoded_line) # Guardar para depuração
+
                     try:
-                        chunk = json.loads(line.decode('utf-8'))
+                        chunk = json.loads(decoded_line)
+
                         if "response" in chunk and chunk["response"]:
                             token = chunk["response"]
                             full_response_content.append(token)
+
                         if chunk.get("done", False):
-                            final_response_metrics = chunk 
-                            break 
+                            final_response_metrics = chunk
+                            # Não quebramos imediatamente se quisermos ver se há mais alguma coisa depois do "done"
+                            # mas para a lógica de resposta, podemos parar aqui
+                            break # Quebrar após o sinal de "done"
+
                         if "error" in chunk:
                             error_msg = f"Ollama API Stream Error: {chunk['error']}"
                             print(f"\n[ERROR] {error_msg}")
-                            raw_error_output_for_log = json.dumps(chunk)
                             interaction_logger_mini.log_error_interaction(
-                                target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data, 
+                                target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data,
                                 error_msg, http_status
                             )
                             return f"Error from Ollama API Stream: {chunk['error']}"
                     except json.JSONDecodeError:
-                        print(f"\n[WARNING] Non-JSON line in stream: {line}")
-                        raw_error_output_for_log += f"\nNon-JSON line: {line.decode('utf-8', errors='ignore')}"
+                        # Se uma linha não for JSON, pode ser um problema ou apenas uma linha em branco
+                        # print(f"\n[WARNING] Non-JSON line in stream: {decoded_line}") # Descomentar para depuração
+                        pass # Ignorar linhas não-JSON por agora na simplificação
                     except Exception as e_chunk:
-                        print(f"\n[ERROR] Error processing stream chunk: {e_chunk} - Chunk: {line}")
-                        raw_error_output_for_log += f"\nError processing chunk: {e_chunk} - Chunk: {line.decode('utf-8', errors='ignore')}"
-            
-            # DEBUG: Para ver o que foi realmente coletado ANTES do strip()
-            # print(f"[DEBUG STREAM CONTENT] Raw collected content for '{target_doc_name}': {full_response_content}")
+                        print(f"\n[ERROR] Error processing stream chunk: {e_chunk} - Chunk: {decoded_line}")
+                        # Continuar a tentar processar o resto da stream
 
             final_assessment_text = "".join(full_response_content).strip()
 
+            # Se ainda estiver vazio, vamos logar a stream bruta para ver o que aconteceu
             if not final_assessment_text and not final_response_metrics.get("error"):
-                # Se não houve conteúdo mas também não houve erro explícito no stream "done"
-                if not final_response_metrics: 
+                print(f"\n[DEBUG] LLM produced empty 'final_assessment_text'. Raw stream was:")
+                for raw_line in raw_response_for_debug:
+                    print(raw_line)
+                
+                if not final_response_metrics: # Se nem o "done" foi recebido
                      error_msg = "Empty response from LLM and no 'done' signal or metrics received from stream."
                      print(f"\n[ERROR] {error_msg}")
                      interaction_logger_mini.log_error_interaction(
-                        target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data, 
-                        error_msg, http_status
+                        target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data,
+                        f"{error_msg}\nRaw Stream:\n{''.join(raw_response_for_debug)}", http_status
                      )
                      return "Error: Empty response and no metrics from LLM stream."
-                # Se houve "done" mas sem "response", e o eval_count for baixo (como 1)
-                eval_count = final_response_metrics.get("eval_count", 0)
-                if eval_count <= 1: # Ajuste este limiar se necessário
-                    final_assessment_text = f"Warning: LLM produced a minimal response (eval_count: {eval_count}). Possible empty or whitespace-only output."
-                else:
-                    final_assessment_text = "Warning: LLM produced an empty response despite no explicit error."
+                # Se "done" foi recebido mas o texto está vazio
+                final_assessment_text = "Warning: LLM produced an empty response (after joining response tokens)."
 
 
-            # MODIFICADO: Remover Stream Metrics do log
             interaction_logger_mini.log_interaction(
-                target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data, 
-                final_assessment_text 
+                target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data,
+                f"{final_assessment_text}\n\nStream Metrics: {json.dumps(final_response_metrics)}\n\nRaw Stream Snapshot:\n{''.join(raw_response_for_debug[:20])}" # Logar um pouco da stream
             )
             return final_assessment_text
-            
-    # ... (blocos except como antes) ...
+
     except requests.exceptions.HTTPError as http_err:
-        error_msg = f"Ollama request failed with HTTPError: {http_err}. Response: {response.text[:500] if response else 'No response object'}"
+        error_msg = f"Ollama request failed with HTTPError: {http_err}. Response: {response.text[:500] if response and hasattr(response, 'text') else 'No response object or text'}"
         print(f"\n[ERROR] {error_msg}")
-        raw_error_output_for_log = response.text[:500] if response else "No response object"
         interaction_logger_mini.log_error_interaction(
-            target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data, 
+            target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data,
             error_msg, http_status
         )
         return f"Error: Ollama request failed - {http_err}"
     except requests.exceptions.RequestException as e:
         error_msg = f"Ollama request failed: {e}"
         print(f"\n[ERROR] {error_msg}")
-        raw_error_output_for_log = str(e)
         interaction_logger_mini.log_error_interaction(
-            target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data, 
+            target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data,
             error_msg, getattr(e.response, 'status_code', None)
         )
         return f"Error: Ollama request failed - {e}"
     except Exception as e_call:
         error_msg = f"An unexpected error occurred during Ollama stream call: {e_call}"
         print(f"\n[ERROR] {error_msg}")
-        raw_error_output_for_log = str(e_call)
         interaction_logger_mini.log_error_interaction(
-            target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data, 
-            error_msg
+            target_doc_name, analysis_mode_description_fixed, system_prompt, user_prompt_with_data,
+            f"{error_msg}\nRaw Stream on Exception:\n{''.join(raw_response_for_debug)}", # Logar a stream se houver um erro inesperado
         )
         return f"Error: An unexpected error occurred - {e_call}"
-
-# --- Funções de Schema REMOVIDAS ---
-# load_and_resolve_schema
-# _extract_properties_recursive
-# get_all_properties_with_descriptions
 
 # --- Funções Auxiliares (como antes, mas load_prompt_template será simplificado) ---
 def load_prompt_template(prompt_filename): # Simplificado, pois só carregamos os prompts 'raw'
@@ -320,9 +321,5 @@ def main():
     print("--- Mini Analyzer V2 (Raw JSON Mode Only) Complete ---")
 
 if __name__ == "__main__":
-    try:
-        import interaction_logger_mini
-    except ImportError:
-        print("[DEBUG] Direct import of `interaction_logger_mini` failed during __main__.")
-        pass
+
     main()
