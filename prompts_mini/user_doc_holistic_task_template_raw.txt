@@ -1,0 +1,5 @@
+Please provide an overall PII sensitivity assessment for the document named '{document_name}'.
+The raw JSON content of the document is as follows:
+
+json
+{raw_json_content}

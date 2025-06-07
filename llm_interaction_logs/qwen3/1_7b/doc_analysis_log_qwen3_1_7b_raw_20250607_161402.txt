@@ -1,0 +1,7 @@
+Holistic Document Analysis LLM Interaction Log (Mode: RAW)
+Model Full Name: qwen3:1.7b
+Log Folder Structure: qwen3/1_7b
+Initialized: 2025-06-07T16:14:02.249247
+==================================================
+
+Este não vale a pena
