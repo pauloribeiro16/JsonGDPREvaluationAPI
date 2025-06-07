@@ -4,7 +4,4 @@ Analyze the entire JSON content. Determine if the document, as a whole, is likel
 
 Focus on identifying if direct identifiers (like full name, email address, social security number, physical address, phone number), indirect identifiers (like user ID, IP address, cookie ID), or special categories of data (health, financial, precise geolocation, racial or ethnic origin, political opinions, religious beliefs, trade union membership, genetic data, biometric data) are present within the JSON structure and its values.
 
-Provide your assessment in a clear, concise natural language paragraph. 
-Explain your reasoning, highlighting any key JSON paths or values that lead to your conclusion.
-If the document contains multiple types of sensitive data, or data that becomes sensitive when combined, please mention that.
-Conclude with a clear overall assessment statement (e.g., "Overall, this document has a high potential for containing sensitive personal data because...", or "Overall, this document appears to contain primarily non-personal metadata...", or "Overall, this document contains a moderate level of personal data due to...").
+**IMPORTANT: Provide your response as plain text only. Do NOT use any Markdown formatting such as headings (e.g., #, ##), lists (e.g., *, -), bolding (e.g., **, __), italics (e.g., *, _), or code blocks (e.g., ```). Your entire output should be a single block of natural language paragraphs.**

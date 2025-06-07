@@ -5,7 +5,6 @@ import requests
 import time
 import beaupy # pip install beaupy
 import interaction_logger_mini
-import re
 
 # --- Configurações ---
 OLLAMA_API_BASE_URL = "http://localhost:11434/api"

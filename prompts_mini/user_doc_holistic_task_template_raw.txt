@@ -1,5 +1,14 @@
 Please provide an overall PII sensitivity assessment for the document named '{document_name}'.
 The raw JSON content of the document is as follows:
 
-json
 {raw_json_content}
+
+Provide your assessment in clear, concise natural language paragraphs.
+Explain your reasoning, highlighting any key JSON paths or values that lead to your conclusion.
+If the document contains multiple types of sensitive data, or data that becomes sensitive when combined, please mention that.
+Conclude with a clear overall assessment statement (e.g., "Overall, this document has a high potential for containing sensitive personal data because...", or "Overall, this document appears to contain primarily non-personal metadata...", or "Overall, this document contains a moderate level of personal data due to...").
+
+**Format instructions:**
+- Your entire response must be plain text.
+- Do not use Markdown formatting (no headings, no lists, no bold/italics, no code blocks).
+- Present the assessment as a continuous block of text, structured in natural language paragraphs.

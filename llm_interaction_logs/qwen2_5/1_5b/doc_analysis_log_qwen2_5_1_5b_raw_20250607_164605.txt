@@ -1,6 +1,0 @@
-Holistic Document Analysis LLM Interaction Log (Mode: RAW)
-Model Full Name: qwen2.5:1.5b
-Log Folder Structure: qwen2_5/1_5b
-Initialized: 2025-06-07T16:46:05.334461
-==================================================
-
