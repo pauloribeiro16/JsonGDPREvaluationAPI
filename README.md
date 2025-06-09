@@ -31,46 +31,7 @@ Se ainda não tem Python instalado, siga estes passos. `pip` (o gestor de pacote
     *   Digite `python --version` e pressione Enter. Deverá ver a versão do Python instalada.
     *   Digite `pip --version` e pressione Enter. Deverá ver a versão do pip instalada.
 
-### macOS:
 
-O macOS geralmente já vem com uma versão do Python, mas pode ser uma versão mais antiga (Python 2). É recomendado instalar o Python 3.
-
-1.  **Usando Homebrew (Recomendado):**
-    *   Se não tem o Homebrew, instale-o a partir de [brew.sh](https://brew.sh/).
-    *   Abra o Terminal e execute:
-        ```bash
-        brew install python
-        ```
-2.  **Usando o Instalador Oficial:**
-    *   Vá ao site oficial do Python: [python.org/downloads/macos/](https://www.python.org/downloads/macos/)
-    *   Descarregue o instalador de pacote macOS.
-    *   Execute o ficheiro `.pkg` e siga as instruções.
-3.  **Verificar Instalação:**
-    *   Abra um novo Terminal.
-    *   Digite `python3 --version` e pressione Enter.
-    *   Digite `pip3 --version` e pressione Enter.
-    *   (Pode precisar de usar `python3` e `pip3` em vez de `python` e `pip` para garantir que está a usar a versão 3).
-
-### Linux:
-
-A maioria das distribuições Linux já vem com Python 3 instalado.
-
-1.  **Verificar Instalação:**
-    *   Abra o Terminal.
-    *   Digite `python3 --version` e pressione Enter.
-    *   Digite `pip3 --version` e pressione Enter.
-2.  **Instalar (se necessário):**
-    *   Em sistemas baseados em Debian/Ubuntu:
-        ```bash
-        sudo apt update
-        sudo apt install python3 python3-pip
-        ```
-    *   Em sistemas baseados em Fedora:
-        ```bash
-        sudo dnf install python3 python3-pip
-        ```
-
----
 
 ## 2. Instalar Bibliotecas Python
 
