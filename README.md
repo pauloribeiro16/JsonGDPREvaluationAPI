@@ -1,5 +1,3 @@
-Claro! Aqui está um guia em formato Markdown para instalar tudo o que é necessário para executar o seu projeto, desde o Python até aos modelos Ollama.
-
 # Guia de Instalação: Mini Document PII Analyzer
 
 Este guia detalha os passos para configurar o ambiente necessário para executar o script `mini_doc_analyzer.py`.
