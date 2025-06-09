@@ -87,28 +87,32 @@ Para testar o script, precisa de descarregar alguns modelos através do Ollama. 
 
 Modelos recomendados para começar (são relativamente pequenos e versáteis):
 
-1.  **`phi3:mini`**
+1.  **`phi4-mini-reasoning`**
     *   Um modelo recente da Microsoft, com bom equilíbrio entre tamanho e capacidade.
     *   Execute:
         ```cmd
-        ollama pull phi3:mini
+        ollama pull phi4-mini-reasoning
         ```
 
-2.  **`gemma:2b`**
+2.  **`gemma3:1b`**
     *   Modelo da Google, também relativamente leve.
     *   Execute:
         ```cmd
-        ollama pull gemma:2b
+        ollama pull gemma3:1b
         ```
 
-3.  **(Opcional) `llama3:8b`**
+3.  **`llama3:8b`**
     *   Um modelo maior e mais capaz da Meta, mas requer mais recursos (RAM e VRAM).
     *   Execute:
         ```cmd
         ollama pull llama3:8b
         ```
-    *   *Verifique os requisitos de sistema para este modelo no site do Ollama ou na página do modelo na biblioteca Ollama.*
-
+4.  **`qwen3:8b`**
+    *   Um modelo maior e mais capaz da Meta, mas requer mais recursos (RAM e VRAM).
+    *   Execute:
+        ```cmd
+        ollama pull qwen3:8b
+        ```
 Pode encontrar mais modelos e as suas etiquetas específicas (tags) na biblioteca oficial do Ollama: [ollama.com/library](https://ollama.com/library)
 
 Após descarregar, pode verificar os modelos instalados com `ollama list`.
