@@ -20,7 +20,7 @@ Se ainda não tem Python instalado, siga estes passos. `pip` (o gestor de pacote
 ### Windows:
 
 1.  **Descarregar Python:**
-    *   Vá ao site oficial do Python: [python.org/downloads/windows/](https://www.python.org/downloads/windows/)
+    *   Vá ao site oficial do Python: [python.org/downloads/windows/]([https://www.python.org/downloads/windows/](https://www.python.org/downloads/release/python-31112/))
     *   Descarregue o instalador executável mais recente para Windows (ex: "Windows installer (64-bit)").
 2.  **Executar o Instalador:**
     *   Execute o ficheiro `.exe` descarregado.
