@@ -1,6 +1,3 @@
-Entendido! Aqui está o guia de instalação focado exclusivamente no Windows, utilizando o link específico para o Python 3.11.12, e formatado em Markdown.
-
-```markdown
 # Guia de Instalação (Windows): Mini Document PII Analyzer
 
 Este guia detalha os passos para configurar o ambiente necessário no Windows para executar o script `mini_doc_analyzer.py`.
@@ -160,14 +157,3 @@ FileEvaluationAPIgenerateSimple/   <-- Pasta raiz do seu projeto (o nome pode se
     *   Pedir-lhe para selecionar um modelo da lista.
     *   Começar a analisar os ficheiros `.json` encontrados na pasta `test_schemas`.
     *   Guardar os logs detalhados das interações e informações do sistema na pasta `llm_interaction_logs`.
-
----
-
-Se encontrar algum problema durante a execução:
-*   Verifique as mensagens de erro no terminal. Elas geralmente dão pistas sobre o que correu mal.
-*   Confirme que todas as bibliotecas Python (`requests`, `beaupy`, `psutil`, `wmi`) foram instaladas corretamente.
-*   Certifique-se de que o serviço Ollama está realmente a correr.
-*   Verifique se os caminhos para as pastas `prompts_mini` e `test_schemas` estão corretos em relação à localização do script.
-```
-
-Este guia focado no Windows deverá ser mais direto para a sua configuração.
