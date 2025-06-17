@@ -1,0 +1,13 @@
+  Overall Project Context:
+  --- START OF PROJECT CONTEXT ---
+  {project_context_summary}
+  --- END OF PROJECT CONTEXT ---
+
+  Document to be analyzed for PII Sensitivity (within the project context above):
+  Document Name: {document_name}
+  Document Excerpt/Keywords: {document_excerpt}
+
+  Based on the **Overall Project Context**, the Document Name, and the Document Excerpt/Keywords, please generate {num_queries} concise sub-questions.
+  These sub-questions should help gather specific information from a GDPR-related knowledge base to aid in a PII sensitivity assessment of the document, relevant to this project.
+
+  Sub-questions:

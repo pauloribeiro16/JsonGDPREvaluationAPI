@@ -1,0 +1,29 @@
+Project Context Overview:
+  --- START OF PROJECT CONTEXT ---
+  {project_context_summary}
+  --- END OF PROJECT CONTEXT ---
+
+  Document for PII Sensitivity Assessment:
+  Document Name: '{document_name}'
+  Raw JSON Content:
+  ```json
+  {raw_json_content}
+  ```
+
+  Additional Context (from RAG system):
+  --- START OF ADDITIONAL RAG CONTEXT ---
+  {additional_rag_context}
+  --- END OF ADDITIONAL RAG CONTEXT ---
+
+  TASK:
+  Considering the **Project Context Overview**, the **Raw JSON Content** of '{document_name}', AND the **Additional Context (from RAG system)** provided above:
+  1.  Perform a comprehensive PII sensitivity assessment for the document '{document_name}'.
+  2.  Analyze the entire JSON content.
+  3.  Explicitly state how the 'Additional Context (from RAG system)' AND the 'Project Context Overview' (if provided and relevant) influenced your PII assessment.
+  4.  Determine if the document, as a whole, is likely to contain significant personal data, some personal data, or primarily non-personal data according to GDPR principles, **within the scope of this project.**
+  5.  Explain your reasoning in clear, concise natural language paragraphs, highlighting any key JSON paths, values, or insights from the RAG context or project context that lead to your conclusion.
+  6.  If the document contains multiple types of sensitive data, or data that becomes sensitive when combined, please mention that.
+  7.  Conclude with a clear overall assessment statement and a likelihood (High, Medium, Low) that the document processes personal data subject to GDPR in the context of this project.
+
+  Output Format Instructions:
+  Your entire response must be plain text. Do not use Markdown formatting.

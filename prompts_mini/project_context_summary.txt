@@ -1,0 +1,9 @@
+Project Overview:
+This project, "Urban Mobility Data Platform," aims to create a centralized system for collecting, processing, and analyzing various urban mobility datasets (e.g., public transport schedules, real-time vehicle locations, traffic incidents, shared mobility usage). The platform will provide APIs for third-party developers and data analytics dashboards for city planners. Key data sources include GTFS feeds, sensor data from vehicles and infrastructure, and user-generated reports.
+
+Primary Privacy Considerations for this Project:
+- Handling of precise geolocation data from users and vehicles.
+- Anonymization/pseudonymization of user-linked mobility patterns.
+- Ensuring data minimization when providing data to third parties.
+- Compliance with GDPR, especially regarding consent for location tracking and data sharing.
+- Security of data stores containing potentially sensitive movement data.

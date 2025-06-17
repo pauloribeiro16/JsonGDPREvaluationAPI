@@ -1,0 +1,11 @@
+Original Document Name for PII Assessment: {document_name}
+
+Aggregated Retrieved Context from Multiple Knowledge Base Sub-Queries:
+--- START OF AGGREGATED CONTEXT ---
+{aggregated_raw_context}
+--- END OF AGGREGATED CONTEXT ---
+
+Please synthesize the 'Aggregated Retrieved Context' provided above.
+The goal is to create a concise summary of the most important information that would help in performing a PII sensitivity assessment for the document '{document_name}', in accordance with GDPR.
+Focus on extracting key PII-related facts, definitions, and relevant GDPR considerations.
+Output the synthesized context as plain text.

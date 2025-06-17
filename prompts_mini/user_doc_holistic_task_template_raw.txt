@@ -3,12 +3,20 @@ The raw JSON content of the document is as follows:
 
 {raw_json_content}
 
-Provide your assessment in clear, concise natural language paragraphs.
-Explain your reasoning, highlighting any key JSON paths or values that lead to your conclusion.
-If the document contains multiple types of sensitive data, or data that becomes sensitive when combined, please mention that.
-Conclude with a clear overall assessment statement (e.g., "Overall, this document has a high potential for containing sensitive personal data because...", or "Overall, this document appears to contain primarily non-personal metadata...", or "Overall, this document contains a moderate level of personal data due to...").
+ADDITIONAL CONTEXT FROM INDEXED REFERENCE DOCUMENTS:
+---
+{additional_rag_context}
+---
 
-**Format instructions:**
-- Your entire response must be plain text.
-- Do not use Markdown formatting (no headings, no lists, no bold/italics, no code blocks).
-- Present the assessment as a continuous block of text, structured in natural language paragraphs.
+REFINED TASK BASED ON ALL INFORMATION:
+Your primary task is to analyze the raw JSON content of the document named '{document_name}' (provided at the beginning of this prompt, before the 'ADDITIONAL CONTEXT').
+Use the 'ADDITIONAL CONTEXT FROM INDEXED REFERENCE DOCUMENTS' (if any was provided and relevant) as background knowledge or reference material to inform your analysis OF THE JSON DOCUMENT.
+For example, if the indexed documents contain GDPR definitions, PII examples, or security best practices, use that to better classify PII or assess risks found IN THE JSON DOCUMENT.
+Do NOT assume that information from the 'ADDITIONAL CONTEXT' is present in the JSON document unless you find it there directly.
+
+In your PII sensitivity assessment for THE JSON DOCUMENT, please:
+1. Identify any PII present IN THE JSON DOCUMENT.
+2. Explain your reasoning, highlighting key JSON paths or values from THE JSON DOCUMENT.
+3. Conclude with a clear overall PII sensitivity assessment statement for THE JSON DOCUMENT.
+
+Output format: Your entire response must be plain text. Do not use Markdown formatting (no headings, lists, bold/italics, code blocks).

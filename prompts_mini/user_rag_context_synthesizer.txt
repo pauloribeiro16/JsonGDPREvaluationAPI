@@ -1,0 +1,10 @@
+Original Document for Analysis: {document_name}
+
+Aggregated Retrieved Context from Multiple Sub-Queries:
+--- START OF AGGREGATED CONTEXT ---
+{aggregated_raw_context}
+--- END OF AGGREGATED CONTEXT ---
+
+Please synthesize the 'Aggregated Retrieved Context' above.
+Focus on extracting and summarizing the information most relevant for performing a PII sensitivity assessment on the '{document_name}' according to GDPR.
+The output should be a single, concise block of plain text.

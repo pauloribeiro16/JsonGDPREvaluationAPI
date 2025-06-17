@@ -1,0 +1,24 @@
+Holistic Document Analysis LLM Interaction Log (Mode: LLAMA3_1_8B_RAG_SIMPLE_LLAMA)
+Model Full Name: llama3.1:8b
+Log Folder Structure: llama3_1/8b
+Initialized: 2025-06-17T21:56:13.445655
+==================================================
+
+--- System Information (Windows Snapshot) ---
+Operating System: Windows 11 (10.0.26100)
+Architecture: AMD64
+Processor (generic): Intel64 Family 6 Model 186 Stepping 3, GenuineIntel
+CPU Cores: 10 physical, 12 logical
+CPU Model (from WMIC): Not found in WMIC output.
+Total RAM: 31.66 GB
+Available RAM (at collection): 10.48 GB
+GPU(s):
+  - GPU 1 (WMI): Intel(R) Iris(R) Xe Graphics, VRAM: 2.00 GB
+  - GPU (from WMIC): Intel(R) Iris(R) Xe Graphics
+Disk(s):
+  - Physical Disk: PC SN740 NVMe WD 256GB (Model: PC SN740 NVMe WD 256GB, Type: HDD, Size: 238.47 GB)
+  Partitions (from psutil):
+    - Mountpoint: C:\ (Filesystem: NTFS)
+      Total Size: 237.57 GB, Used: 196.65 GB (82.8%), Free: 40.92 GB
+==================================================
+
